@@ -2,6 +2,16 @@
 
 Python library to interact with [eLabFTW](https://github.com/elabftw/elabftw) REST API v2.
 
+## Installation
+
+~~~bash
+pip install --user elabapi-python
+~~~
+
+## Usage
+
+See the [examples folder](./examples).
+
 ## Using the helper script
 
 ~~~
@@ -13,6 +23,6 @@ Python library to interact with [eLabFTW](https://github.com/elabftw/elabftw) RE
 ./helper.sh publish
 ~~~
 
-# License
+## License
 
 MIT, see [license file](./LICENSE).
