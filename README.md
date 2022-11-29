@@ -14,7 +14,7 @@ See the [examples folder](./examples).
 
 ## Using the helper script
 
-~~~
+~~~bash
 # generate the library
 ./helper.sh generate
 # build packages
