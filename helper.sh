@@ -22,7 +22,7 @@ function generate {
 function generate-ci {
     docker run --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
     # fix permissions
-    chown -R "$(id -u)":"$(id -gn)" "$lib"
+    sudo chown -R "$(id -u)":"$(id -gn)" "$lib"
 }
 
 # generate the lib from a local file in current directory
