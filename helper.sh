@@ -18,6 +18,13 @@ function generate {
     docker run --user "$(id -u)":"$(id -gn)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
+# don't use user/group ids in GH actions
+function generate-ci {
+    docker run --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    # fix permissions
+    chown -R "$(id -u)":"$(id -gn)" "$lib"
+}
+
 # generate the lib from a local file in current directory
 function generate-from-local {
     cleanup
@@ -36,6 +43,11 @@ function publish {
     cd "$lib" || exit 1
     twine upload dist/*
     cd ..
+}
+
+function build-ci {
+    generate-ci
+    build
 }
 
 "$1"

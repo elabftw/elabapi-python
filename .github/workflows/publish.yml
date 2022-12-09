@@ -15,19 +15,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.x'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
-    - name: Generate library
+    - name: Generate and build the library
       run: |
-        bash helper.sh generate
-    - name: Build
-      run: |
-        bash helper.sh build
+        bash helper.sh build-ci
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@master
       with:
