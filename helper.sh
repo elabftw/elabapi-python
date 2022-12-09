@@ -8,11 +8,20 @@ openapi_yaml_url="https://raw.githubusercontent.com/elabftw/elabftw/hypernext/ap
 # folder with the generated python code
 lib="generated"
 
-function generate {
-    # clean up first
+function cleanup {
     rm -rfv "$lib"
-    # now generate the lib
+}
+
+# generate the lib from remote hypernext spec
+function generate {
+    cleanup
     docker run --user "$(id -u)":"$(id -gn)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+}
+
+# generate the lib from a local file in current directory
+function generate-from-local {
+    cleanup
+    docker run --user "$(id -u)":"$(id -gn)" --rm -v "${PWD}":/local "$docker_image" generate -i /local/openapi.yaml -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
 function build {
