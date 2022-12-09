@@ -23,8 +23,6 @@ See the [examples folder](./examples).
 ./helper.sh generate-from-local
 # build packages
 ./helper.sh build
-# publish new version (after editing config.json, with twine installed, use __token__ as username)
-./helper.sh publish
 ~~~
 
 ## Installing the library for dev
@@ -32,6 +30,13 @@ See the [examples folder](./examples).
 ~~~bash
 cd generated && python setup.py develop --user
 ~~~
+
+## Publishing a new version
+
+1. Bump version in config.json
+2. Commit and push
+3. Tag and push --tags
+4. Create release on GitHub
 
 # License
 
