@@ -35,7 +35,7 @@ api_client.set_default_header(header_name='Authorization', header_value=API_KEY)
 # create an instance of Items api
 itemsApi = elabapi_python.ItemsApi(api_client)
 
-for item in itemsApi.read_items(cat=9):
+for item in itemsApi.read_items(cat=9, limit=9999):
     # skip items with metadata already
     if not item.metadata:
         print(f'Patching item {item.id}')
