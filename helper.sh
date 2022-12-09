@@ -45,6 +45,13 @@ function publish {
     cd ..
 }
 
+function install-dev {
+    cd "$lib" || exit 1
+    python setup.py develop --user
+    cd ..
+}
+
+
 function build-ci {
     generate-ci
     cd "$lib" || exit 1
