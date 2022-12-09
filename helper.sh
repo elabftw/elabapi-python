@@ -31,6 +31,7 @@ function build {
 }
 
 function publish {
+    generate
     build
     cd "$lib" || exit 1
     twine upload dist/*

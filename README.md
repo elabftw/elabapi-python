@@ -23,7 +23,7 @@ See the [examples folder](./examples).
 ./helper.sh generate-from-local
 # build packages
 ./helper.sh build
-# publish new version (after editing config.json, with twine installed)
+# publish new version (after editing config.json, with twine installed, use __token__ as username)
 ./helper.sh publish
 ~~~
 
