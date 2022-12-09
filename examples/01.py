@@ -40,9 +40,11 @@ date_from = today - datetime.timedelta(days = PERIOD_IN_DAYS)
 # look for experiments that are timestamped
 for exp in experimentsApi.read_experiments(extended=f'timestamped:yes timestamped_at:>{date_from}'):
     for upload in uploadsApi.read_uploads('experiments', exp.id):
-        # get and save binary file
-        now = datetime.datetime.now()
-        with open(f'{exp.id}-{exp.elabid}-{now.strftime("%Y-%m-%d_%H-%M-%S")}-timestamp-archive.zip', 'wb') as zipfile:
-            # the _preload_content flag is necessary so the api_client doesn't try and deserialize the response
-            zipfile.write(uploadsApi.read_upload('experiments', exp.id, upload.id, format='binary', _preload_content=False).data)
+        # we only look at immutable uploads => timestamp archives
+        if upload.immutable:
+            now = datetime.datetime.now()
+            # get and save binary file
+            with open(f'{exp.id}-{exp.elabid}-{now.strftime("%Y-%m-%d_%H-%M-%S")}-timestamp-archive.zip', 'wb') as zipfile:
+                # the _preload_content flag is necessary so the api_client doesn't try and deserialize the response
+                zipfile.write(uploadsApi.read_upload('experiments', exp.id, upload.id, format='binary', _preload_content=False).data)
 
