@@ -47,7 +47,8 @@ function publish {
 
 function build-ci {
     generate-ci
-    build
+    cd "$lib" || exit 1
+    python -m build --sdist --wheel --outdir ../dist
 }
 
 "$1"
