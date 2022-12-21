@@ -17,3 +17,7 @@ Look for all items of a particular category and patch the metadata if it is empt
 # 03.py
 
 Upload and delete a file in an experiment.
+
+# 04.py
+
+Create a teamgroup and add a user in it.
