@@ -30,9 +30,9 @@ api_client.set_default_header(header_name='Authorization', header_value=API_KEY)
 # Load items api
 itemsApi = elabapi_python.ItemsApi(api_client)
 
-# Create an item in team within the category_id 1 (items_types)
+# Create an item with the category_id 1 (items_types ID = 1)
 targetCategory = 1
-response = itemsApi.post_item_with_http_info(body={'category_id': 1, 'tags': ['some tag', 'another tag']})
+response = itemsApi.post_item_with_http_info(body={'category_id': targetCategory, 'tags': ['some tag', 'another tag']})
 locationHeaderInResponse = response[2].get('Location')
 print(f'The newly created item is here: {locationHeaderInResponse}')
 itemId = int(locationHeaderInResponse.split('/').pop())
