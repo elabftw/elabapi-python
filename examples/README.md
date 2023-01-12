@@ -18,10 +18,14 @@ Look for all items of a particular category and patch the metadata if it is empt
 
 Upload and delete a file in an experiment.
 
-# 04.py
+# 04.py
 
 Create a teamgroup and add a user in it.
 
-# 05.py
+# 05.py
 
 Create an item in the database and modify it.
+
+# 06.py
+
+Create users in batch.
