@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import time
 import datetime
 import elabapi_python
@@ -38,6 +39,13 @@ uploadsApi.post_upload('experiments', 256, file='README.md', comment='Uploaded w
 # display id, name and comment of the uploaded files
 for upload in uploadsApi.read_uploads('experiments', exp.id):
     print(upload.id, upload.real_name, upload.comment)
+    # get and save file
+    with open(f'README.downloaded_with_api.md', 'wb') as file:
+        # the _preload_content flag is necessary so the api_client doesn't try and deserialize the response
+        file.write(uploadsApi.read_upload('experiments', 256, upload.id, format='binary', _preload_content=False).data)
     # delete all the files where the name is 'README.md'
     if upload.real_name == 'README.md':
         uploadsApi.delete_upload('experiments', 256, upload.id)
+
+# cleanup: delete the downloaded file
+os.remove('README.downloaded_with_api.md')
