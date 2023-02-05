@@ -10,8 +10,6 @@ from elabapi_python.rest import ApiException
 API_HOST_URL = 'https://elab.local:3148/api/v2'
 # replace with your api key
 API_KEY = 'apiKey4Test'
-# number of days to look back
-PERIOD_IN_DAYS = 7
 #########################
 #      END CONFIG       #
 #########################
