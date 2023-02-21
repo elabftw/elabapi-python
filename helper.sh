@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 # This script will generate a python library from the openapi definition file.
+# Note: if running into this error: library initialization failed - unable to allocate file descriptor table - out of memory
+# Edit docker systemd service file and add "--default-ulimit nofile=65536:65536" on the ExecStart line
+# then systemctl daemon-reload and systemctl restart docker
+
 
 # the docker image used to generate the client code
 docker_image="swaggerapi/swagger-codegen-cli-v3"
