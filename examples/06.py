@@ -55,3 +55,7 @@ for user in users_to_create:
     locationHeaderInResponse = response[2].get('Location')
     userid = int(locationHeaderInResponse.split('/').pop())
     print(f'Created user with id: {userid} in team: {user.get("team", default_team)}.')
+
+print('--------------')
+print('Now add user with id 1 to team 3')
+users.patch_user(1, body={'action': 'add', 'team': 3})
