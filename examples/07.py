@@ -1,56 +1,50 @@
 #!/usr/bin/env python
-
-
+import time
+import datetime
 import elabapi_python
 from elabapi_python.rest import ApiException
 
-#replace with your api key
-my_api_key = 'xxxxx'
+#########################
+#         CONFIG        #
+#########################
+API_HOST_URL = 'https://elab.local:3148/api/v2'
+# replace with your api key
+API_KEY = 'apiKey4Test'
+#########################
+#      END CONFIG       #
+#########################
 
-# Config
+# Configure the api client
 configuration = elabapi_python.Configuration()
-configuration.api_key['api_key'] = my_api_key
+configuration.api_key['api_key'] = API_KEY
 configuration.api_key_prefix['api_key'] = 'Authorization'
-configuration.host = 'xxxx'
-configuration.debug = True
+configuration.host = API_HOST_URL
+configuration.debug = False
 configuration.verify_ssl = False
 
 # create an instance of the API class
 api_client = elabapi_python.ApiClient(configuration)
 # fix issue with Authorization header not being properly set by the generated lib
-api_client.set_default_header(header_name='Authorization', header_value=my_api_key)
+api_client.set_default_header(header_name='Authorization', header_value=API_KEY)
 
-#Create instance of ExperimentTemplateApi
+# Create instance of ExperimentTemplateApi
 templateApi = elabapi_python.ExperimentsTemplatesApi(api_client)
 
 
-#Template that we want to create
+# Template that we want to create, exemple with extra fields
 template_format = {
-     'body': '',
-     'canread': '{"base": 30, "teams": [], "users": [], "teamgroups": []}',
-     'canwrite': '{"base": 20, "teams": [], "users": [], "teamgroups": []}',
-     'fullname': 'User 1',
-     'is_pinned': 0,
-     'locked': 0,
-     'lockedby': None,
-     'lockedwhen': None,
      'metadata': '{"extra_fields": {"End date": {"type": "date", "value": '
                  '"2021-06-09"}, "Ethical": {"type": "select", "value": '
                  '"123456", "options": ["123456", "20000", "12345"]}, '
                  '"Magnification": {"type": "select", "value": "20X", "options": '
                  '["10X", "20X", "40X"]}}}',
-     'tags': None,
-     'tags_id': None,
-     'teams_id': 21,
-     'title': 'Test PATCH',
-     'userid': 6
 }
 
-#Use of the post funtion to create a new template
+# Use of the post funtion to create a new template
 res = templateApi.post_experiment_template_with_http_info(body={'title': 'API Creation'})
 locationHeaderInResponse = res[2].get('Location')
 print(f'The newly created template is here: {locationHeaderInResponse}')
 itemId = int(locationHeaderInResponse.split('/').pop())
 
-#Change informations in the template
-templateApi.patch_experiment_template(itemId, body={'title': 'Test'})
+# Change metadata of the template
+templateApi.patch_experiment_template(itemId, body={'metadata': template_format['metadata']})
