@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-import time
-import datetime
 import elabapi_python
-from elabapi_python.rest import ApiException
 
 #########################
 #         CONFIG        #
@@ -30,14 +27,13 @@ api_client.set_default_header(header_name='Authorization', header_value=API_KEY)
 # Create instance of ExperimentTemplateApi
 templateApi = elabapi_python.ExperimentsTemplatesApi(api_client)
 
-
 # Template that we want to create, exemple with extra fields
 template_format = {
-     'metadata': '{"extra_fields": {"End date": {"type": "date", "value": '
-                 '"2021-06-09"}, "Ethical": {"type": "select", "value": '
-                 '"123456", "options": ["123456", "20000", "12345"]}, '
-                 '"Magnification": {"type": "select", "value": "20X", "options": '
-                 '["10X", "20X", "40X"]}}}',
+    'metadata': '{"extra_fields": {"End date": {"type": "date", "value": '
+                '"2021-06-09"}, "Ethical": {"type": "select", "value": '
+                '"123456", "options": ["123456", "20000", "12345"]}, '
+                '"Magnification": {"type": "select", "value": "20X", "options": '
+                '["10X", "20X", "40X"]}}}',
 }
 
 # Use of the post funtion to create a new template
