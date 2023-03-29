@@ -29,3 +29,7 @@ Create an item in the database and modify it.
 # 06.py
 
 Create users in batch.
+
+# 07.py
+
+Patch instance config: modify the settings of the Sysadmin Panel.
