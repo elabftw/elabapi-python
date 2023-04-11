@@ -1,5 +1,6 @@
 {
   "packageName": "elabapi_python",
+  "pythonPackageName": "elabapi_python",
   "projectName": "elabapi-python",
   "packageVersion": "0.2.1",
   "packageUrl": "https://github.com/elabftw/elabapi-python"
