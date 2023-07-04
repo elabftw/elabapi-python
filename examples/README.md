@@ -33,3 +33,7 @@ Create users in batch.
 # 07.py
 
 Patch instance config: modify the settings of the Sysadmin Panel.
+
+# 08.py
+
+Read a CSV file for samples, create them in the database with metadata, tags and links.
