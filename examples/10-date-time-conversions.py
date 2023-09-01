@@ -14,8 +14,13 @@ from datetime import datetime
 
 # the python library for elabftw
 import elabapi_python
+
+# matplot to finally open the plot as an image
+import matplotlib.pyplot as plt
+
 # Pandas library for converting dictionary to dataframe (plotting tools like seaborn knows how to plot dataframes)
 import pandas as pd
+
 # Seaborn to plot the dataframe from pandas
 import seaborn as sns
 
@@ -88,4 +93,5 @@ plot_data = {
 df = pd.DataFrame.from_dict(plot_data)
 # Now we plot.
 sns.countplot(data=df, x="Creation Year", hue="Status")
+plt.show()
 # And that should give us an interesting discrete time series plot!
