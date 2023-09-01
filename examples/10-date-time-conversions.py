@@ -76,6 +76,13 @@ created_at = [datetime.fromisoformat(time.created_at).strftime("%Y") for time in
 # For things like parsing timezones and other date-time paring related information,
 # please refer to the official documentation of datetime: https://docs.python.org/3/library/datetime.html
 
+# So far we have been using the data in its original structure as returned by the elabapi-python.
+# You might notice data[0] is an elabapi-python object, not a built-in data container. If you want more flexibility
+# with the data, you can convert it to dictionary with the built-in ast module the following way:
+# import ast
+# structured_data = ast. literal_eval(str(data))
+# Here structured_data will be a full-fledged dictionary.
+
 # To make our final plot interesting we would like to see how the frequency looks like when it is color encoded (hue)
 # with "status". I.e., we would expect the older an experiment is the more likely its status is set to "Success".
 # Status by default is assigned "Running".
