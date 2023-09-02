@@ -41,3 +41,7 @@ Read a CSV file for samples, create them in the database with metadata, tags and
 # 09-import-csv.py
 
 Read a CSV file containing a list of antibodies and import them in the resource database using the metadata/extra fields.
+
+# 10-date-time-conversions.py
+
+Work with date-time data formats with a demonstration of doing statistics with experiments data.
