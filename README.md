@@ -16,7 +16,14 @@ Users should install the library with `pip`, as described below.
 # Installation
 
 ~~~bash
-pip install --user elabapi-python
+# create a virtual environment
+python -m venv elab
+# activate it
+source elab/bin/activate
+# on Windows
+# C:\> elab\Scripts\activate.bat
+# install the library
+pip install elabapi-python
 ~~~
 
 # Usage
