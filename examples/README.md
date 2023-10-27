@@ -45,3 +45,7 @@ Read a CSV file containing a list of antibodies and import them in the resource 
 # 10-date-time-conversions.py
 
 Work with date-time data formats with a demonstration of doing statistics with experiments data.
+
+# 11-resources-categories.py
+
+Create and edit a Resources Category (Items types).
