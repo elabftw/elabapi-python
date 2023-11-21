@@ -59,7 +59,8 @@ def getMetadataFromRow(row):
     for keyval in row.items():
         field_type = 'text'
         # we don't import these columns as metadata
-        if keyval[0] == 'Name' or keyval[0] == 'Comment':
+        # Name is the tile, Comment is in the body, and ID is the custom_id.
+        if keyval[0] == 'Name' or keyval[0] == 'Comment' or keyval[0] == 'ID':
             continue
         # special case for url/URL column, we make it a type: url
         if keyval[0].lower() == 'url':
@@ -84,19 +85,33 @@ def getMetadataFromRow(row):
 
 # The column "Comment" will get added to the body of the resource
 def getBodyFromRow(row) -> str:
-    metadata = { 'extra_fields': {} }
     for keyval in row.items():
         if keyval[0] == 'Comment':
             return f'<p>{keyval[1]}</p>'
     return ''
 
+###########################################
+######## WHERE THE MAGIC HAPPENS ##########
+###########################################
+
 # Note: use encoding='utf-8-sig' in the open() call if your file has BOM (Byte Order Mark)
 # Also make sure that the CSV file was saved as UTF-8 to avoid issues with special characters
 with open(CSV_PATH, newline='') as csvfile:
+    # let's read the CSV using the standard "csv" library from python. No need for anything fancier.
     csvreader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
+    # now we loop over each row in our CSV
     for row in csvreader:
         # here we add the tag "-20°C freezer" to every row
+        # the API allows setting tags during creation (POST) of a resource or experiment, so we use it here
         response = itemsApi.post_item_with_http_info(body={'category_id': RESOURCE_CATEGORY_ID, 'tags': ['-20°C freezer']})
         locationHeaderInResponse = response[2].get('Location')
+        # that's our ID of the newly created resource
         itemId = int(locationHeaderInResponse.split('/').pop())
-        itemsApi.patch_item(itemId, body={'title': row['Name'], 'body': getBodyFromRow(row), 'metadata': getMetadataFromRow(row)})
+
+        # Patch the item to change its content:
+        # the "Name" column becomes our title
+        # the "Body" is generated from the "Comment" column content with the "getBodyFromRow()" function
+        # for the "ID" column we match it to the "custom_id" property in elab
+        # and the extra fields (metadata) is built with a function
+        # the single line below will make all those changes at once
+        itemsApi.patch_item(itemId, body={'title': row['Name'], 'body': getBodyFromRow(row), 'custom_id': row['ID'], 'metadata': getMetadataFromRow(row)})
