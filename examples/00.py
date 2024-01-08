@@ -17,8 +17,11 @@ configuration.verify_ssl = False
 # create an instance of the API class
 api_client = elabapi_python.ApiClient(configuration)
 # fix issue with Authorization header not being properly set by the generated lib
-api_client.set_default_header(header_name='Authorization', header_value='apiKey4Test')
+api_client.set_default_header(header_name='Authorization', header_value=my_api_key)
 
 # create an instance of Items
 items = elabapi_python.ItemsApi(api_client)
+# display items with default settings
 print(items.read_items())
+# display 50 items with a category id of 8
+print(len(items.read_items(limit=50, cat=8)))
