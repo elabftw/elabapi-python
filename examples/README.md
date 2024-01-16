@@ -50,6 +50,10 @@ Work with date-time data formats with a demonstration of doing statistics with e
 
 Create and edit a Resources Category (Items types).
 
+# [12-experiments-export-pdf.py]
+
+Look for all timestamped experiments last week for a particular user and save a pdf locally.
+
 [00-read-items.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/00-read-items.py
 [01-download-timestamp-archive.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/01-download-timestamp-archive.py
 [02-patch-metadata-per-category.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/02-patch-metadata-per-category.py
@@ -62,4 +66,5 @@ Create and edit a Resources Category (Items types).
 [09-import-csv.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/09-import-csv.py
 [10-date-time-conversions.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/10-date-time-conversions.py
 [11-resources-categories.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/11-resources-categories.py
+[12-experiments-export-pdf.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/12-experiments-export-pdf.py
 
