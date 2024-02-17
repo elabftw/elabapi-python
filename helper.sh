@@ -6,6 +6,8 @@
 
 
 # the docker image used to generate the client code
+# not running latest version because of https://github.com/swagger-api/swagger-codegen/issues/12321
+# FIXME update to latest once this issue is fixed
 docker_image="swaggerapi/swagger-codegen-cli-v3:3.0.41"
 # where to grab the definition file
 openapi_yaml_url="https://raw.githubusercontent.com/elabftw/elabftw/hypernext/apidoc/v2/openapi.yaml"
