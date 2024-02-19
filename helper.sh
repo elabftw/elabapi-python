@@ -6,9 +6,9 @@
 
 
 # the docker image used to generate the client code
-# not running latest version because of https://github.com/swagger-api/swagger-codegen/issues/12321
-# FIXME update to latest once this issue is fixed
-docker_image="swaggerapi/swagger-codegen-cli-v3:3.0.41"
+# pinning version to avoid unexpected bugs
+# see https://github.com/swagger-api/swagger-codegen/releases for updating version below
+docker_image="swaggerapi/swagger-codegen-cli-v3:3.0.54"
 # where to grab the definition file
 openapi_yaml_url="https://raw.githubusercontent.com/elabftw/elabftw/hypernext/apidoc/v2/openapi.yaml"
 # folder with the generated python code
@@ -23,12 +23,12 @@ function cleanup {
 # generate the lib from remote hypernext spec
 function generate {
     cleanup
-    docker run --user "$(id -u)":"$(id -gn)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
 function generate-html {
     cleanup
-    docker run --user "$(id -u)":"$(id -gn)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l html2 -o /local/"$html" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l html2 -o /local/"$html" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
 # don't use user/group ids in GH actions
