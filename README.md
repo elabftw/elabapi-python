@@ -30,6 +30,12 @@ pip install elabapi-python
 
 See the [examples folder](./examples).
 
+# Unofficial documentation
+
+From TU Graz:
+
+* https://alexgu2008.github.io/elabftw_api_support/
+
 # Dev
 
 ## Using the helper script
