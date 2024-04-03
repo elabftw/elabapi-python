@@ -54,6 +54,10 @@ Create and edit a Resources Category (Items types).
 
 Look for all timestamped experiments last week for a particular user and save a pdf locally.
 
+# [13-events.py](./13-events.py)
+
+Get a list of events (booked slots) for the current team.
+
 [00-read-items.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/00-read-items.py
 [01-download-timestamp-archive.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/01-download-timestamp-archive.py
 [02-patch-metadata-per-category.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/02-patch-metadata-per-category.py
@@ -67,4 +71,3 @@ Look for all timestamped experiments last week for a particular user and save a 
 [10-date-time-conversions.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/10-date-time-conversions.py
 [11-resources-categories.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/11-resources-categories.py
 [12-experiments-export-pdf.py]: https://github.com/elabftw/elabapi-python/blob/master/examples/12-experiments-export-pdf.py
-
