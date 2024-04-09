@@ -57,3 +57,7 @@ Look for all timestamped experiments last week for a particular user and save a 
 # [13-events.py](./13-events.py)
 
 Get a list of events (booked slots) for the current team.
+
+# [14-fix-user-exp-permissions.py](./14-fix-user-exp-permissions.py)
+
+Look for all experiments of a given user and adjust permissions of their experiments.
