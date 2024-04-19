@@ -61,3 +61,7 @@ Get a list of events (booked slots) for the current team.
 # [14-fix-user-exp-permissions.py](./14-fix-user-exp-permissions.py)
 
 Look for all experiments of a given user and adjust permissions of their experiments.
+
+# [15-process-csv-metadata-into-csv-column.py](./15-process-csv-metadata-into-csv-column.py)
+
+Take a CSV file created from eLabFTW export function, and for each row, grab the metadata, and create a new CSV where each Extra Field in the metadata is now a column.
