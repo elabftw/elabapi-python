@@ -33,9 +33,11 @@ api_client.set_default_header(header_name='Authorization', header_value=API_KEY)
 # create an instance of Items api
 itemsApi = elabapi_python.ItemsApi(api_client)
 
-for item in itemsApi.read_items(cat=9, limit=9999):
+metadata = '{"elabftw": {"extra_fields_groups": [{"id": 1,"name": "Drug settings"},{"id": 2,"name": "Mice info"}]},"extra_fields": {"Drug addition": {"type": "datetime-local","value": "","group_id": 1,"required": true,"description": "Time when drug is added"},"Drug concentration": {"type": "number","unit": "mM","units": ["mM","μM","nM"],"value": "","group_id": 1,"required": true},"Mouse sex": {"type": "select","value": "Male","options": ["Male","Female"],"group_id": 2}}}'
+
+for item in itemsApi.read_items(cat=1, limit=9999):
     # skip items with metadata already
     if not item.metadata:
         print(f'Patching item {item.id}')
-        itemsApi.patch_item(item.id, body={'metadata': '{"new":"metadata"}'})
+        itemsApi.patch_item(item.id, body={'metadata': metadata})
 
