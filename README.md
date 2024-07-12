@@ -32,9 +32,9 @@ See the [examples folder](./examples).
 
 # Unofficial documentation
 
-From TU Graz:
+From TU Graz, Shared RDM Project:
 
-* https://alexgu2008.github.io/elabftw_api_support/
+* https://github.com/sharedRDM/elabftw_api_support
 
 # Dev
 
