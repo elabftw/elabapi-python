@@ -10,7 +10,7 @@
 # see https://github.com/swagger-api/swagger-codegen/releases for updating version below
 docker_image="swaggerapi/swagger-codegen-cli-v3:3.0.54"
 # where to grab the definition file
-openapi_yaml_url="https://raw.githubusercontent.com/elabftw/elabftw/hypernext/apidoc/v2/openapi.yaml"
+openapi_yaml_url="https://raw.githubusercontent.com/elabftw/elabftw/master/apidoc/v2/openapi.yaml"
 # folder with the generated python code
 lib="generated"
 html="html"
@@ -20,7 +20,7 @@ function cleanup {
     rm -rfv "$html"
 }
 
-# generate the lib from remote hypernext spec
+# generate the lib from remote spec
 function generate {
     cleanup
     docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
