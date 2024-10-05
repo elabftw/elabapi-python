@@ -1,0 +1,5 @@
+old_email,new_email,another column
+tata@yopmail.com,tata2@yopmail.com,Yes
+tutu@yopmail.com,tutu2@yopmail.com,Nope
+toto@yopmail.com,toto2@yopmail.com,
+not-existing-email@example.com,nope@example.com,This email doesn’t exist in the database
