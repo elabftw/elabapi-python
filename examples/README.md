@@ -65,3 +65,15 @@ Look for all experiments of a given user and adjust permissions of their experim
 # [15-process-csv-metadata-into-csv-column.py](./15-process-csv-metadata-into-csv-column.py)
 
 Take a CSV file created from eLabFTW export function, and for each row, grab the metadata, and create a new CSV where each Extra Field in the metadata is now a column.
+
+# [16-update-users-emails.py](./16-update-users-emails.py)
+
+Take a CSV file that contains a list of old emails to update and their new value, and generate a .sql file that will update theses values in the database.
+
+# [17-csv-metadata-as-columns.py](./17-csv-metadata-as-columns.py)
+
+Take a CSV file created from eLabFTW export function, and creates a new CSV where it extracts the metadata Extra Fields into a new column.
+
+# [18-archive-users.py](./18-archive-users.py)
+
+Archive users that have been inactive for at least 8 months.
