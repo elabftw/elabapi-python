@@ -2,3 +2,4 @@ generated/
 openapi.yaml
 html
 venv
+__pycache__

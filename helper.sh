@@ -8,7 +8,7 @@
 # the docker image used to generate the client code
 # pinning version to avoid unexpected bugs
 # see https://github.com/swagger-api/swagger-codegen/releases for updating version below
-docker_image="swaggerapi/swagger-codegen-cli-v3:3.0.54"
+docker_image="swaggerapi/swagger-codegen-cli-v3:3.0.68"
 # where to grab the definition file
 openapi_yaml_url="https://raw.githubusercontent.com/elabftw/elabftw/master/apidoc/v2/openapi.yaml"
 # folder with the generated python code
@@ -60,7 +60,7 @@ function publish {
 
 function install-dev {
     cd "$lib" || exit 1
-    python setup.py develop --user
+    pip install -e generated
     cd ..
 }
 
