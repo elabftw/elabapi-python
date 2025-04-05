@@ -28,7 +28,29 @@ pip install elabapi-python
 
 # Usage
 
-See the [examples folder](./examples).
+## Getting started
+The easiest way to get started is to look at an example script: [00-getting-started.py](./examples/00-getting-started.py).
+
+Find more examples in the [examples folder](./examples).
+
+## Basic concepts
+
+~~~python
+import elabapi_python
+# Initialize a configuration object from the library
+configuration = elabapi_python.Configuration()
+# Set the host
+configuration.host = "https://eln.example.org/api/v2"
+# Create an API client object with our configuration
+api_client = elabapi_python.ApiClient(configuration)
+# Set the Api Key in Authorization header
+api_client.set_default_header(header_name='Authorization', header_value=5-abc123...)
+
+# Depending on your needs, instantiate the correct object with api_client as argument
+info_client = elabapi_python.InfoApi(api_client)
+exp_client = elabapi_python.ExperimentsApi(api_client)
+items_client = elabapi_python.ItemsApi(api_client)
+~~~
 
 # Unofficial documentation
 
