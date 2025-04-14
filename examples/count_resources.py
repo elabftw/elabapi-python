@@ -1,3 +1,19 @@
+"""
+DESCRIPTION:
+This script counts the number of items in a specific resource category within an eLabFTW instance.
+It fetches paginated data from the API and provides the total number of entries for the given category.
+
+USAGE:
+Run the script from the command line and pass the desired category ID as an argument:
+
+    python count_resources.py <CATEGORY_ID>
+
+Example:
+    python count_resources.py 19
+
+Make sure to set your API key and instance URL in the configuration section.
+"""
+
 import requests
 import urllib3
 import argparse
@@ -5,8 +21,8 @@ import argparse
 # ==========================
 # 🔧 CONFIGURATION
 # ==========================
-API_HOST_URL = 'https://elab.ub.uni-frankfurt.de/api/v2'  # <-- URL eLabFTW Goethe Uni or Replace with your instance URL 
-API_KEY = 'YOUR_API_KEY'  # <-- Replace with your API key
+API_HOST_URL = 'https://elab.local:3148/api/v2'  # <-- URL eLabFTW Goethe Uni or Replace with your instance URL 
+API_KEY = 'apiKey4Test'  # <-- Replace with your API key
 
 # Parse category_id from command-line argument
 parser = argparse.ArgumentParser(description="Count entries in a specific resource category.")
