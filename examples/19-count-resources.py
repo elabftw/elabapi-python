@@ -14,18 +14,18 @@ items_api2 = elabapi_python.ItemsApi(api_client)
 try:
     # Fetch the categories (ItemsTypes) from the API
     item_types = items_api.read_items_types()  # Fetch all categories
-    
+
     # Print the number of categories
     print(f"Number of categories: {len(item_types)}")
-    
+
     # Iterate through each category and display the ID and Title
     for item_type in item_types:
         print(f"ID: {item_type.id}, Title: {item_type.title}")
-        
+
         # Fetch the items (entries) for each category by ID
         entries = items_api2.read_items(cat=item_type.id, limit=100)  # Get the items for the category
         entry_count = len(entries)  # Count the number of items
-        
+
         # Display the number of items in the current category
         print(f"Number of entries in this category: {entry_count}\n")
 
