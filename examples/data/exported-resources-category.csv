@@ -1,0 +1,4 @@
+﻿id,date,title,userid,fullname,body,category,category_title,category_color,status,status_title,status_color,custom_id,elabid,rating,url,metadata,tags
+230,2025-05-16,Morphine,1,Toto Le sysadmin,,10,Compounds,0A0A0A,,,,,20250516-2d29600514894de9c2c2843c7121c6932d24ac9c,0,https://elab.local:3148/database.php?mode=view&id=230,"{""extra_fields"": {""CAS"": {""type"": ""text"", ""value"": ""57-27-2"", ""group_id"": null}}}",
+231,2025-05-16,EGFR inhibitor,1,Toto Le sysadmin,,10,Compounds,0A0A0A,,,,,20250516-bb9794f2ce0682f1c0635686151329378c7b727b,0,https://elab.local:3148/database.php?mode=view&id=231,"{""extra_fields"": {""CAS"": {""type"": ""text"", ""value"": ""879127-07-8"", ""group_id"": null}}}",
+232,2025-05-16,Acetone,1,Toto Le sysadmin,,10,Compounds,0A0A0A,,,,,20250516-3abf450365d179c7e46c9a80ce9069a0d2a22289,0,https://elab.local:3148/database.php?mode=view&id=232,"{""extra_fields"": {""CAS"": {""type"": ""text"", ""value"": ""67-64-1"", ""group_id"": null}}}",
