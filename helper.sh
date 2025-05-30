@@ -7,8 +7,9 @@
 
 # the docker image used to generate the client code
 # pinning version to avoid unexpected bugs
-# see https://github.com/swagger-api/swagger-codegen/releases for updating version below
-docker_image="swaggerapi/swagger-codegen-cli-v3:3.0.68"
+# releases: https://github.com/OpenAPITools/openapi-generator/releases
+generator_version="v7.13.0"
+docker_image="openapitools/openapi-generator-cli:$generator_version"
 # where to grab the definition file
 openapi_yaml_url="https://raw.githubusercontent.com/elabftw/elabftw/master/apidoc/v2/openapi.yaml"
 # folder with the generated python code
@@ -23,17 +24,17 @@ function cleanup {
 # generate the lib from remote spec
 function generate {
     cleanup
-    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -g python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
 function generate-html {
     cleanup
-    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l html2 -o /local/"$html" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -g html2 -o /local/"$html" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
 # don't use user/group ids in GH actions
 function generate-ci {
-    docker run --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" -g python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
     # fix permissions
     sudo chown -R "$(id -u)":"$(id -gn)" "$lib"
 }
@@ -41,13 +42,19 @@ function generate-ci {
 # generate the lib from a local file in current directory
 function generate-from-local {
     cleanup
-    docker run --user "$(id -u)":"$(id -g)" --rm -v "${PWD}":/local "$docker_image" generate -i /local/openapi.yaml -l python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -g)" --rm -v "${PWD}":/local "$docker_image" generate -i /local/openapi.yaml -g python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+}
+
+function venv {
+    rm -rf venv
+    python -m venv venv
+    source venv/bin/activate
 }
 
 function build {
     cd "$lib" || exit 1
-    python setup.py sdist bdist_egg bdist_wheel
-    cd ..
+    pip install uv
+    uv build
 }
 
 function publish {
@@ -55,20 +62,16 @@ function publish {
     build
     cd "$lib" || exit 1
     twine upload dist/*
-    cd ..
 }
 
 function install-dev {
-    cd "$lib" || exit 1
+    venv
     pip install -e generated
-    cd ..
 }
-
 
 function build-ci {
     generate-ci
-    cd "$lib" || exit 1
-    python -m build --sdist --wheel --outdir ../dist
+    build
 }
 
 "$1"
