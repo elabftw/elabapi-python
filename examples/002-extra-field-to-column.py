@@ -20,7 +20,7 @@ RESOURCE_CATEGORY_ID = 5
 CURRENCY_EUROS = 4
 
 # we need to use _preload_content=False here so we can access the metadata properly
-response = items_client.read_items(cat=1, limit=9999, _preload_content=False)
+response = items_client.read_items(cat=RESOURCE_CATEGORY_ID, limit=9999, _preload_content=False)
 items = json.loads(response.data.decode('utf-8'))
 for item in items:
     metadata = item.get('metadata', None)
@@ -31,8 +31,13 @@ for item in items:
     meta = json.loads(metadata)
     extra_fields = meta.get('extra_fields', None)
     if extra_fields is not None:
-        proc_pack_qty = extra_fields.get("Quantity", 1).get("value")
-        proc_price_notax = extra_fields.get("Price", 0.00).get("value")
+        proc_pack_qty = extra_fields.get("Quantity", {"value": "1"}).get("value")
+        proc_price_notax = extra_fields.get("Price", {"value": "0.00"}).get("value")
+        # ensure we have a dot separator and a string
+        proc_price_notax = str(proc_price_notax).replace(",",".")
+        # ensure empty value is 0.00
+        if proc_price_notax == "":
+            proc_price_notax = "0.00"
         proc_price_tax = float(proc_price_notax) * 1.2
         # no patch the item with these values
         print(f"INFO: Patching item with id {item.get('id')}")
