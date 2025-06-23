@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-import time
 import datetime
 import elabapi_python
-from elabapi_python.rest import ApiException
 
 #########################
 #         CONFIG        #

@@ -4,7 +4,6 @@
 # In this example script, we want to grab information from metadata and add it to the Resource as a proper column #
 ###################################################################################################################
 
-from pprint import pprint
 import elabapi_python
 import json
 
