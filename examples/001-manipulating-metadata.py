@@ -4,7 +4,6 @@
 # In this example script, we show you how to manage extra fields through the "metadata" attribute #
 ###################################################################################################
 
-from pprint import pprint
 import elabapi_python
 
 # use the locally defined client.py module to get the api_client object, fully configured and ready to be used to instantiate api objects

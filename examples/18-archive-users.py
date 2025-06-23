@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-import datetime
-import json
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 # the python library for elabftw
