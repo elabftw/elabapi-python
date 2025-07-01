@@ -8,6 +8,7 @@
 generator_tool="${GENERATOR_TOOL:-swagger}"
 
 # generator can be 'swagger' or 'openapi'
+# the docker image used to generate the client code
 if [ "$generator_tool" = "swagger" ]; then
     docker_image="swaggerapi/swagger-codegen-cli-v3:3.0.68"
     generator_flag="-l"
@@ -18,9 +19,6 @@ else
     generator_flag="-g"
 fi
 
-# the docker image used to generate the client code
-# pinning version to avoid unexpected bugs
-docker_image="openapitools/openapi-generator-cli:$generator_version"
 # where to grab the definition file
 openapi_yaml_url="https://raw.githubusercontent.com/elabftw/elabftw/master/apidoc/v2/openapi.yaml"
 # folder with the generated python code
@@ -35,17 +33,17 @@ function cleanup {
 # generate the lib from remote spec
 function generate {
     cleanup
-    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" $generator_flag python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
 function generate-html {
     cleanup
-    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" $generator_flag html2 -o /local/"$html" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" "$generator_flag" html2 -o /local/"$html" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
 # don't use user/group ids in GH actions
 function generate-ci {
-    docker run --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" $generator_flag python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
     # fix permissions
     sudo chown -R "$(id -u)":"$(id -gn)" "$lib"
 }
@@ -53,7 +51,7 @@ function generate-ci {
 # generate the lib from a local file in current directory
 function generate-from-local {
     cleanup
-    docker run --user "$(id -u)":"$(id -g)" --rm -v "${PWD}":/local "$docker_image" generate -i /local/openapi.yaml $generator_flag python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -g)" --rm -v "${PWD}":/local "$docker_image" generate -i /local/openapi.yaml "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
 function venv {
