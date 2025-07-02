@@ -10,7 +10,9 @@ generator_tool="${GENERATOR_TOOL:-swagger}"
 # generator can be 'swagger' or 'openapi'
 # the docker image used to generate the client code
 if [ "$generator_tool" = "swagger" ]; then
-    docker_image="swaggerapi/swagger-codegen-cli-v3:3.0.68"
+    generator_lineage="v3"
+    generator_version="3.0.68"
+    docker_image="swaggerapi/swagger-codegen-cli-$generator_lineage:$generator_version"
     generator_flag="-l"
 else
     # releases: https://github.com/OpenAPITools/openapi-generator/releases
