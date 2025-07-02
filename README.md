@@ -7,7 +7,9 @@ Python library for eLabFTW REST API.
 
 # Description
 
-This repository allows generating a python library to interact with [eLabFTW](https://github.com/elabftw/elabftw) REST API v2. It uses [Openapi Generator](https://github.com/OpenAPITools/openapi-generator) to generate it based on the OpenApi specification of [eLabFTW REST API v2](https://doc.elabftw.net/api/v2/).
+This repository allows generating a python library to interact with [eLabFTW](https://github.com/elabftw/elabftw) REST API v2. It uses [Swagger Codegen](https://github.com/swagger-api/swagger-codegen/tree/3.0.0) to generate it based on the OpenApi specification of [eLabFTW REST API v2](https://doc.elabftw.net/api/v2/).
+
+Alternatively, it supports using [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) as an optional code generation tool.
 
 As such, it doesn't contain the generated code, but only instructions on how to generate it for local development.
 
@@ -62,14 +64,28 @@ From TU Graz, Shared RDM Project:
 
 ## Using the helper script
 
-~~~bash
-# generate the library
+### Generate the library using Code Generators
+
+The primary tool for generating the library is swagger-codegen. However, you can also use OpenAPI Generator as an alternative, if it better suits your requirements or you encounter issues with the default.
+
+```bash
+# Option 1: Generate using Swagger Codegen
 ./helper.sh generate
-# generate from local file: openapi.yaml must be in current dir
+
+# Option 2: Generate using OpenAPI Generator
+GENERATOR_TOOL=openapi ./helper.sh generate
+```
+
+### Or Generate from a local OpenAPI Specification
+Ensure the `openapi.yaml` file is located in the current working directory, then run:
+~~~bash
 ./helper.sh generate-from-local
-# build packages
-./helper.sh build
 ~~~
+
+### Build packages
+```bash
+./helper.sh build
+```
 
 ## Installing the library for dev
 
