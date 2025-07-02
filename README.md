@@ -64,16 +64,28 @@ From TU Graz, Shared RDM Project:
 
 ## Using the helper script
 
-~~~bash
-# Option 1: generate the library with Swagger codegen
+### Generate the library using Code Generators
+
+The primary tool for generating the library is swagger-codegen. However, you can also use OpenAPI Generator as an alternative, if it better suits your requirements or you encounter issues with the default.
+
+```bash
+# Option 1: Generate using Swagger Codegen
 ./helper.sh generate
-# Option 2: generate using openapi-generator
+
+# Option 2: Generate using OpenAPI Generator
 GENERATOR_TOOL=openapi ./helper.sh generate
-# Option 3: generate from local file: openapi.yaml must be in current dir
+```
+
+### Or Generate from a local OpenAPI Specification
+Ensure the `openapi.yaml` file is located in the current working directory, then run:
+~~~bash
 ./helper.sh generate-from-local
-# build packages
-./helper.sh build
 ~~~
+
+### Build packages
+```bash
+./helper.sh build
+```
 
 ## Installing the library for dev
 
