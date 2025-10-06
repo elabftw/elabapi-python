@@ -35,14 +35,26 @@ configuration.debug = False
 # setup proxy to elabapi client's config
 proxy_url = os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
 if proxy_url:
+    # make sure underlying libraries also see the proxy (requests / subprocesses)
+    os.environ.setdefault("HTTPS_PROXY", proxy_url)
+    os.environ.setdefault("HTTP_PROXY", proxy_url)
+    try:
+        configuration.proxy = proxy_url
+    except Exception:
+        # some generated clients don't expose 'proxy', so ignore safely
+        pass
     configuration.proxy = proxy_url
 
 # set CA for both requests and the elabapi-client
 ca_path = os.getenv("CA_PATH") or os.getenv("REQUESTS_CA_BUNDLE")
 if ca_path:
-    configuration.ssl_ca_cert = ca_path
-    if not os.getenv("REQUESTS_CA_BUNDLE"):
-        os.environ["REQUESTS_CA_BUNDLE"] = ca_path
+    # let requests (and other libs) use this CA bundle unless already set
+    os.environ.setdefault("REQUESTS_CA_BUNDLE", ca_path)
+    try:
+        configuration.ssl_ca_cert = ca_path
+    except Exception:
+        # attribute may not exist on all generated configurations
+        pass
 
 # Create an API client object with our configuration
 api_client = elabapi_python.ApiClient(configuration)
