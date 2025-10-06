@@ -43,7 +43,6 @@ if proxy_url:
     except Exception:
         # some generated clients don't expose 'proxy', so ignore safely
         pass
-    configuration.proxy = proxy_url
 
 # set CA for both requests and the elabapi-client
 ca_path = os.getenv("CA_PATH") or os.getenv("REQUESTS_CA_BUNDLE")

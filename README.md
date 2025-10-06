@@ -61,18 +61,18 @@ If you need to route your API traffic through a proxy (for example, to inspect r
 ### Using environment variables
 
 The simplest way is to define proxy settings via standard environment variables before running your script:
-```bash
+~~~bash
 export HTTP_PROXY="http://127.0.0.1:8080"
 export HTTPS_PROXY="http://127.0.0.1:8080"
 export NO_PROXY=localhost,127.0.0.1
-```
+~~~
 
 Open a new terminal and run a proxy (e.g., mitmproxy)
 
-```bash
+~~~bash
 pip install mitmproxy
 mitmdump --listen-host 0.0.0.0 --listen-port 8080 --ssl-insecure
-```
+~~~
 
 Now run your script and confirm requests go through the proxy.
 
@@ -80,7 +80,7 @@ Now run your script and confirm requests go through the proxy.
 
 Alternatively, you can set the proxy directly in your code:
 
-```python
+~~~python
 import elabapi_python
 # Initialize a configuration object from the library
 configuration = elabapi_python.Configuration()
@@ -93,7 +93,7 @@ configuration.proxy = "http://127.0.0.1:8080"
 configuration.ssl_ca_cert = "/path/to/mitmproxy-ca.pem"
 # Create an API client object with the configuration
 api_client = elabapi_python.ApiClient(configuration)
-```
+~~~
 
 # Unofficial documentation
 
@@ -109,13 +109,13 @@ From TU Graz, Shared RDM Project:
 
 The primary tool for generating the library is swagger-codegen. However, you can also use OpenAPI Generator as an alternative, if it better suits your requirements or you encounter issues with the default.
 
-```bash
+~~~bash
 # Option 1: Generate using Swagger Codegen
 ./helper.sh generate
 
 # Option 2: Generate using OpenAPI Generator
 GENERATOR_TOOL=openapi ./helper.sh generate
-```
+~~~
 
 ### Or Generate from a local OpenAPI Specification
 Ensure the `openapi.yaml` file is located in the current working directory, then run:
@@ -124,9 +124,9 @@ Ensure the `openapi.yaml` file is located in the current working directory, then
 ~~~
 
 ### Build packages
-```bash
+~~~bash
 ./helper.sh build
-```
+~~~
 
 ## Installing the library for dev
 
