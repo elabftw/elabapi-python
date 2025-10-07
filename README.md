@@ -69,6 +69,12 @@ export REQUESTS_CA_BUNDLE=/path/to/your/proxy-ca.pem
 ### Configuration for the client
 
 ~~~python
+import os
+import elabapi_python
+# Initialize a configuration object from the library
+configuration = elabapi_python.Configuration()
+# Set the host
+configuration.host = "https://eln.example.org/api/v2"
 # Set a proxy URL (supports HTTP and HTTPS)
 configuration.proxy = os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
 # or using Docker, something close to "http://host.docker.internal:8080"
