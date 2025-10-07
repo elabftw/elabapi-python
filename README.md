@@ -66,6 +66,18 @@ export NO_PROXY=localhost,127.0.0.1
 export REQUESTS_CA_BUNDLE=/path/to/your/proxy-ca.pem
 ~~~
 
+### Configuration for the client
+
+~~~python
+# Set a proxy URL (supports HTTP and HTTPS)
+configuration.proxy = os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
+# or using Docker, something close to "http://host.docker.internal:8080"
+# Optionally, specify a path to a custom CA certificate (e.g. mitmproxy)
+configuration.ssl_ca_cert = os.getenv("CA_PATH") or os.getenv("REQUESTS_CA_BUNDLE")
+# Create an API client object with the configuration
+api_client = elabapi_python.ApiClient(configuration)
+~~~
+
 # Unofficial documentation
 
 From TU Graz, Shared RDM Project:
