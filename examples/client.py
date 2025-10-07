@@ -32,28 +32,20 @@ configuration.debug = False
 #   export HTTPS_PROXY="http://127.0.0.1:8080"
 #   export NO_PROXY=localhost,127.0.0.1
 #   export REQUESTS_CA_BUNDLE=/path/to/mitmproxy-ca.pem
-# setup proxy to elabapi client's config
+# Many libraries (e.g. 'requests') read HTTP(S)_PROXY from the environment automatically.
+# However the generated elabapi_python client uses a generated Configuration + urllib3
+# which may not read those env vars. That is why we set the env vars along with 'configuration.proxy'
+# and 'configuration.ssl_ca_cert' so the generated client itself uses the proxy and trust bundle.
 proxy_url = os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
 if proxy_url:
-    # make sure underlying libraries also see the proxy (requests / subprocesses)
-    os.environ.setdefault("HTTPS_PROXY", proxy_url)
-    os.environ.setdefault("HTTP_PROXY", proxy_url)
-    try:
-        configuration.proxy = proxy_url
-    except Exception:
-        # some generated clients don't expose 'proxy', so ignore safely
-        pass
+    configuration.proxy = proxy_url
 
 # set CA for both requests and the elabapi-client
 ca_path = os.getenv("CA_PATH") or os.getenv("REQUESTS_CA_BUNDLE")
 if ca_path:
-    # let requests (and other libs) use this CA bundle unless already set
-    os.environ.setdefault("REQUESTS_CA_BUNDLE", ca_path)
-    try:
-        configuration.ssl_ca_cert = ca_path
-    except Exception:
-        # attribute may not exist on all generated configurations
-        pass
+    configuration.ssl_ca_cert = ca_path
+    if not os.getenv("REQUESTS_CA_BUNDLE"):
+        os.environ["REQUESTS_CA_BUNDLE"] = ca_path
 
 # Create an API client object with our configuration
 api_client = elabapi_python.ApiClient(configuration)
