@@ -4,30 +4,7 @@ import elabapi_python
 # necessary imports for this example
 import csv
 import json
-
-#########################
-#         CONFIG        #
-#########################
-# replace with the URL of your instance
-API_HOST_URL = 'https://elab.local:3148/api/v2'
-# replace with your api key
-API_KEY = 'apiKey4Test'
-#########################
-#      END CONFIG       #
-#########################
-
-# Configure the api client
-configuration = elabapi_python.Configuration()
-configuration.api_key['api_key'] = API_KEY
-configuration.api_key_prefix['api_key'] = 'Authorization'
-configuration.host = API_HOST_URL
-configuration.debug = False
-configuration.verify_ssl = False
-
-# create an instance of the API class
-api_client = elabapi_python.ApiClient(configuration)
-# fix issue with Authorization header not being properly set by the generated lib
-api_client.set_default_header(header_name='Authorization', header_value=API_KEY)
+from client import api_client
 
 #### SCRIPT START ##################
 # Description: read a csv file
@@ -42,9 +19,9 @@ linksApi = elabapi_python.LinksToItemsApi(api_client)
 # this is the path to the CSV file that we will read
 csv_path = 'data/samples.csv'
 
-# in which category (items_types) our samples will be created
+# in which resource category our samples will be created
 # this corresponds to the previously created "Samples" category in our database
-category_id = 1
+RESOURCE_CATEGORY_ID = 1
 
 # project map (see comment below when linking to a project)
 project_map = {'Changes in a child’s subgingival microbiome following prophylaxis': 17, 'Another project': 16}
@@ -59,7 +36,7 @@ with open(csv_path, newline='') as csvfile:
     csvreader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
     for row in csvreader:
         # create an item in the correct category, we also add a tag with the sample_type here
-        response = itemsApi.post_item_with_http_info(body={'category_id': category_id, 'tags': [row['sample_type']]})
+        response = itemsApi.post_item_with_http_info(body={'category': RESOURCE_CATEGORY_ID, 'tags': [row['sample_type']]})
         # the previous request gives us the ID of the newly created item, so look into the Location header to get it
         locationHeaderInResponse = response[2].get('Location')
         print(f'The newly created item is here: {locationHeaderInResponse}')

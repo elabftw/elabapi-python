@@ -3,6 +3,10 @@ import datetime
 import elabapi_python
 from client import api_client
 
+##################################################################################
+# In this example script, we will download timestamps archives from experiments. #
+##################################################################################
+
 # define number of days to look back
 PERIOD_IN_DAYS = 7
 

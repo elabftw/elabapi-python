@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-####################################################################################
-#    In this example script, we will upload a file to an experiment and delete it. #
-#        You can comment the 'delete' part to see results in your experiment.      #
-####################################################################################
+#################################################################################
+# In this example script, we will upload a file to an experiment and delete it. #
+# You can comment the 'delete' part to see results in your experiment.          #
+#################################################################################
 
 # Doc: https://doc.elabftw.net/api/v2/#/Uploads
 
