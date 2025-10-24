@@ -56,32 +56,31 @@ items_client = elabapi_python.ItemsApi(api_client)
 
 ## Using a proxy
 
-The simplest way to route API traffic through a proxy is to set standard environment variables before running your script.
+To route API traffic through a proxy, set the standard environment variables before running the script. These variables are used by both the Python HTTP stack and the eLabFTW client.
 
+### Environment configuration
+
+Set the following variables according to your proxy setup:
+
+- `HTTP_PROXY` and `HTTPS_PROXY`: Define the proxy server address, including the protocol and port (for example, `http://127.0.0.1:8080`).
+- `NO_PROXY`: Specify hostnames or IPs that should bypass the proxy (for example, localhost or internal domains).
+- `REQUESTS_CA_BUNDLE`: Optional path to a custom CA certificate file, required if the proxy intercepts HTTPS traffic with a self-signed certificate.
+
+Example:
 ~~~bash
 export HTTP_PROXY="http://127.0.0.1:8080"
 export HTTPS_PROXY="http://127.0.0.1:8080"
-# Avoid proxying local targets to prevent loops:
-export NO_PROXY=localhost,127.0.0.1
-export REQUESTS_CA_BUNDLE=/path/to/your/proxy-ca.pem
+export NO_PROXY="localhost,127.0.0.1"
+export REQUESTS_CA_BUNDLE="/path/to/proxy-ca.pem"
 ~~~
 
-### Configuration for the client
+### Client configuration
+
+The client automatically detects these environment variables. To set the proxy manually, use the configuration object:
 
 ~~~python
-import os
-import elabapi_python
-# Initialize a configuration object from the library
-configuration = elabapi_python.Configuration()
-# Set the host
-configuration.host = "https://eln.example.org/api/v2"
-# Set a proxy URL (supports HTTP and HTTPS)
 configuration.proxy = os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
-# or using Docker, something close to "http://host.docker.internal:8080"
-# Optionally, specify a path to a custom CA certificate (e.g. mitmproxy)
 configuration.ssl_ca_cert = os.getenv("CA_PATH") or os.getenv("REQUESTS_CA_BUNDLE")
-# Create an API client object with the configuration
-api_client = elabapi_python.ApiClient(configuration)
 ~~~
 
 # Unofficial documentation
