@@ -9,6 +9,7 @@
 import elabapi_python
 # random lib to create a random color for our category
 import random
+from client import api_client
 
 # In this example, categories will be linked to the current team.
 TEAM_ID = "current"
