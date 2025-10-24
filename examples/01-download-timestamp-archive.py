@@ -20,7 +20,7 @@ date_from = today - datetime.timedelta(days = PERIOD_IN_DAYS)
 
 # look for experiments that are timestamped
 for exp in experimentsApi.read_experiments(extended=f'timestamped:yes timestamped_at:>{date_from}'):
-    for upload in uploadsApi.read_uploads('experiments', exp.id, state='1,2'):
+    for upload in uploadsApi.read_uploads('experiments', exp.id):
         # we only look at immutable uploads => timestamp archives
         if upload.immutable:
             now = datetime.datetime.now()
