@@ -5,16 +5,11 @@
 ###################################################################################################
 
 import elabapi_python
-
-# use the locally defined client.py module to get the api_client object, fully configured and ready to be used to instantiate api objects
 from client import api_client
 
-# Note:
-# In order to make it easier to run only specific parts, the parts are grouped in functions that are called at the end of the script
-
-######################################################
-# Part 1: creating a Resource with specific metadata #
-######################################################
+##############################################
+# Creating a Resource with specific metadata #
+##############################################
 # Doc: https://doc.elabftw.net/api/v2/#/Items/post-item
 # Start by creating our api object to interact with /items endpoint
 items_client = elabapi_python.ItemsApi(api_client)
