@@ -5,45 +5,14 @@
 # This file is heavily commented and will show you various examples of using the API library #
 ##############################################################################################
 
-# We will use the standard "os" module to read values from environment
-import os
-
-# and this one to pretty print python object
-from pprint import pprint
-
-# You must have elabapi-python installed so it can be imported
-# This line will make the library available in our script
-# Install it with: pip install elabapi-python
 import elabapi_python
 
-# START CONFIG
-# Basic configuration: Api Key and Host URL
-# Get the Api Key from the environment or use the default development value
-API_KEY = os.getenv('API_KEY') or 'apiKey4Test'
-# Get the server address from the environment or use the default development value
-API_HOST = os.getenv('API_HOST') or 'https://elab.local:3148/api/v2'
+# first, use the locally defined client.py module to get the api_client object. (see /examples/client.py)
+# it is fully configured and ready to be used to instantiate api objects
+from client import api_client
 
-# Initialize a configuration object from the library
-configuration = elabapi_python.Configuration()
-
-# Set the host
-configuration.host = API_HOST
-# Verify the TLS certificate validity: should be set to True in production
-configuration.verify_ssl = False
-# For convenience, mask the warnings about skipping TLS verification
-if not configuration.verify_ssl:
-    import urllib3
-    urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
-
-# Set this flag to True to get more verbose output
-configuration.debug = False
-
-# Create an API client object with our configuration
-api_client = elabapi_python.ApiClient(configuration)
-
-# Set the Api Key in Authorization header
-api_client.set_default_header(header_name='Authorization', header_value=API_KEY)
-# END CONFIG
+# add pprint to pretty print python objects
+from pprint import pprint
 
 # Note:
 # In order to make it easier to run only specific parts, the parts are grouped in functions that are called at the end of the script
@@ -64,7 +33,7 @@ def part1():
     pprint(api_response)
     print("")
     # Example usage
-    print(f"[*] The instance at {API_HOST} has {api_response.teams_count} teams and {api_response.all_users_count} users.")
+    print(f"[*] The instance at {api_client.configuration.host} has {api_response.teams_count} teams and {api_response.all_users_count} users.")
     print(f"[*] Total size of uploaded files: {api_response.uploads_filesize_sum_formatted}")
     print("\n------------------------ END PART 1 ------------------------\n")
 
