@@ -54,6 +54,35 @@ exp_client = elabapi_python.ExperimentsApi(api_client)
 items_client = elabapi_python.ItemsApi(api_client)
 ~~~
 
+## Using a proxy
+
+To route API traffic through a proxy, set the standard environment variables before running the script. These variables are used by both the Python HTTP stack and the eLabFTW client.
+
+### Environment configuration
+
+Set the following variables according to your proxy setup:
+
+- `HTTP_PROXY` and `HTTPS_PROXY`: Define the proxy server address, including the protocol and port (for example, `http://127.0.0.1:8080`).
+- `NO_PROXY`: Specify hostnames or IPs that should bypass the proxy (for example, localhost or internal domains).
+- `REQUESTS_CA_BUNDLE`: Optional path to a custom CA certificate file, required if the proxy intercepts HTTPS traffic with a self-signed certificate.
+
+Example:
+~~~bash
+export HTTP_PROXY="http://127.0.0.1:8080"
+export HTTPS_PROXY="http://127.0.0.1:8080"
+export NO_PROXY="localhost,127.0.0.1"
+export REQUESTS_CA_BUNDLE="/path/to/proxy-ca.pem"
+~~~
+
+### Client configuration
+
+The client automatically detects these environment variables. To set the proxy manually, use the configuration object:
+
+~~~python
+configuration.proxy = os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
+configuration.ssl_ca_cert = os.getenv("CA_PATH") or os.getenv("REQUESTS_CA_BUNDLE")
+~~~
+
 # Unofficial documentation
 
 From TU Graz, Shared RDM Project:
@@ -68,13 +97,13 @@ From TU Graz, Shared RDM Project:
 
 The primary tool for generating the library is swagger-codegen. However, you can also use OpenAPI Generator as an alternative, if it better suits your requirements or you encounter issues with the default.
 
-```bash
+~~~bash
 # Option 1: Generate using Swagger Codegen
 ./helper.sh generate
 
 # Option 2: Generate using OpenAPI Generator
 GENERATOR_TOOL=openapi ./helper.sh generate
-```
+~~~
 
 ### Or Generate from a local OpenAPI Specification
 Ensure the `openapi.yaml` file is located in the current working directory, then run:
@@ -83,9 +112,9 @@ Ensure the `openapi.yaml` file is located in the current working directory, then
 ~~~
 
 ### Build packages
-```bash
+~~~bash
 ./helper.sh build
-```
+~~~
 
 ## Installing the library for dev
 
