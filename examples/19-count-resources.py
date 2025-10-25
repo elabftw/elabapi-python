@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 This script connects to an eLabFTW instance via the REST API to retrieve and list all available resource categories (also called item types).
 For each category, it prints the category ID and title, followed by the number of entries (items) that belong to that category.

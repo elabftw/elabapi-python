@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # This script takes an eLabFTW exported CSV file as input
 # and processes the metadata into new columns
 # it requires the "pandas" library
