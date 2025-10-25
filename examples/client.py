@@ -2,6 +2,10 @@
 
 # We will use the standard "os" module to read values from environment
 import os
+
+# You must have elabapi-python installed so it can be imported
+# This line will make the library available in our script
+# Install it with: 'pip install elabapi-python' or 'uv add elabapi-python'
 import elabapi_python
 
 # START CONFIG
@@ -52,3 +56,5 @@ api_client = elabapi_python.ApiClient(configuration)
 
 # Set the Api Key in Authorization header
 api_client.set_default_header(header_name='Authorization', header_value=API_KEY)
+
+# END CONFIG

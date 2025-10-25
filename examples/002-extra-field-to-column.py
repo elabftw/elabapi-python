@@ -6,15 +6,13 @@
 
 import elabapi_python
 import json
-
-# use the locally defined client.py module to get the api_client object, fully configured and ready to be used to instantiate api objects
 from client import api_client
 
 # Start by creating our api object to interact with /items endpoint
 items_client = elabapi_python.ItemsApi(api_client)
 
-# In this example, this corresponds to "Chemicals". Adapt to your instance.
-RESOURCE_CATEGORY_ID = 5
+# In this example, this corresponds to "Antibody". Adapt to your instance.
+RESOURCE_CATEGORY_ID = 3
 # this value is the same for all eLabFTW instances
 CURRENCY_EUROS = 4
 
