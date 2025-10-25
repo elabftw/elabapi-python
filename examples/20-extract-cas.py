@@ -15,7 +15,6 @@ import sys
 # use the locally defined client.py module to get the api_client object, fully configured and ready to be used to instantiate api objects
 from client import api_client
 
-
 items_client = elabapi_python.ItemsApi(api_client)
 
 parser = argparse.ArgumentParser(

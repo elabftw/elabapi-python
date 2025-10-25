@@ -3,6 +3,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 # the python library for elabftw
 import elabapi_python
+from client import api_client
 
 #####################
 #    DESCRIPTION    #
@@ -11,37 +12,11 @@ import elabapi_python
 # This script would typically be run by an Sysadmin user                                                           #
 ####################################################################################################################
 
-#########################
-#         CONFIG        #
-#########################
-# replace with the URL of your instance
-API_HOST_URL = 'https://elab.local:3148/api/v2'
-# replace with your api key
-API_KEY = 'apiKey4Test'
-
 # this is the date format we get back from API
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 # we want to archive users not logged in after 8 months
 INACTIVE_PERIOD_MONTHS = 8
-#########################
-#      END CONFIG       #
-#########################
 
-# Configure the api client
-configuration = elabapi_python.Configuration()
-configuration.api_key['api_key'] = API_KEY
-configuration.api_key_prefix['api_key'] = 'Authorization'
-configuration.host = API_HOST_URL
-configuration.debug = False
-configuration.verify_ssl = False
-
-# create an instance of the API class
-api_client = elabapi_python.ApiClient(configuration)
-# fix issue with Authorization header not being properly set by the generated lib
-api_client.set_default_header(header_name='Authorization', header_value=API_KEY)
-
-
-#### SCRIPT START ##################
 def should_be_archived(date_string):
     date_format = "%Y-%m-%d %H:%M:%S"
     input_date = datetime.strptime(date_string, date_format)
@@ -64,3 +39,5 @@ for user in users:
         if should_be_archived(user.last_login):
             print(f'Archiving user {user.email}. Last login: {user.last_login}')
             usersApi.patch_user(user.userid, body={'action': 'archive'})
+
+# TODO: fix last_login info is not provided anymore when user is not admin!
