@@ -16,9 +16,9 @@ import csv
 # we also need the json module for the metadata (extra fields) part
 import json
 
-# this is the resource category where the entries will be created. Visit /api/v2/items_types to GET a list.
-# In this example, this corresponds to "Antibody". Adapt to your instance.
-RESOURCE_CATEGORY_ID = 3
+# this is the resource template that will be used for the created entries. Visit /api/v2/items_types to GET a list.
+# In this example, this corresponds to "Primary Antibody". Adapt to your instance.
+RESOURCE_TEMPLATE_ID = 23
 
 # path to the csv file, change this too
 CSV_PATH = './data/antibodies.csv'
@@ -80,7 +80,7 @@ with open(CSV_PATH, newline='') as csvfile:
     for row in csvreader:
         # here we add the tag "-20°C freezer" to every row
         # the API allows setting tags during creation (POST) of a resource or experiment, so we use it here
-        response = itemsApi.post_item_with_http_info(body={'category': RESOURCE_CATEGORY_ID, 'tags': ['-20°C freezer']})
+        response = itemsApi.post_item_with_http_info(body={'template': RESOURCE_TEMPLATE_ID, 'tags': ['-20°C freezer']})
         locationHeaderInResponse = response[2].get('Location')
         # that's our ID of the newly created resource
         itemId = int(locationHeaderInResponse.split('/').pop())
