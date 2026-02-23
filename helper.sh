@@ -32,10 +32,16 @@ function cleanup {
     rm -rfv "$html"
 }
 
+function fix-enums-imports {
+    # Replace missing Enum defaults like XXXEnumm._30 with primitive values (30)
+    perl -pi -e 's/\b([A-Za-z_][A-Za-z0-9_]*)Enum\._([0-9]+)\b/$2/g' generated/elabapi_python/models/*.py
+}
+
 # generate the lib from remote spec
 function generate {
     cleanup
-    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-pytho0n
+    fix-enums-imports
 }
 
 function generate-html {
@@ -48,12 +54,14 @@ function generate-ci {
     docker run --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
     # fix permissions
     sudo chown -R "$(id -u)":"$(id -gn)" "$lib"
+    fix-enums-imports
 }
 
 # generate the lib from a local file in current directory
 function generate-from-local {
     cleanup
     docker run --user "$(id -u)":"$(id -g)" --rm -v "${PWD}":/local "$docker_image" generate -i /local/openapi.yaml "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    fix-enums-imports
 }
 
 function venv {
