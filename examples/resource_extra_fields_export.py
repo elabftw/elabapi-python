@@ -125,7 +125,8 @@ FIELD_ORDER = [
 print("Starting export...")
 
 # Retrieve all items from the specified category
-items = itemsApi.read_items(cat=CATEGORY_ID)
+response = itemsApi.read_items(cat=CATEGORY_ID, _preload_content=False)
+items = json.loads(response.data.decode("utf-8"))
 
 print(f"Items found: {len(items)}")
 
@@ -137,24 +138,47 @@ for item in items:
     row = {}
 
     # Internal eLabFTW resource ID (primary identifier)
-    row["Ressourcen ID"] = item.id or ""
+    row["Ressourcen ID"] = item.get("id", "")
 
     # Item title
-    row["Titel"] = item.title or ""
+    row["Titel"] = item.get("title", "")
 
-    # Metadata is stored as JSON string
-    metadata_raw = item.metadata
+    # Metadata is stored as JSON object
+    metadata_raw = item.get("metadata")
 
     if metadata_raw:
-        metadata = json.loads(metadata_raw)
-        extra_fields = metadata.get("extra_fields", {})
+        if isinstance(metadata_raw, str):
+            metadata = json.loads(metadata_raw)
+            extra_fields = metadata.get("extra_fields", {})
+        else:
+            metadata = metadata_raw
+            extra_fields = getattr(metadata, "extra_fields", {}) or {}
     else:
         extra_fields = {}
 
+    # Normalize keys for case/space insensitive matching
+    normalized_fields = {}
+
+    if isinstance(extra_fields, dict):
+        normalized_fields = {k.strip().lower(): v for k, v in extra_fields.items()}
+        # backwards compatibility for elabapi_python versions
+    else:
+        for f in extra_fields:
+            key = getattr(f, "name", "").strip().lower()
+            normalized_fields[key] = f
+
     # Extract all fields defined in FIELD_ORDER
     for field in FIELD_ORDER:
-        if field in extra_fields:
-            value = extra_fields[field].get("value", "")
+        key = field.strip().lower()
+
+        if key in normalized_fields:
+            field_obj = normalized_fields[key]
+
+            # Support dict or object style access
+            if isinstance(field_obj, dict):
+                value = field_obj.get("value", "")
+            else:
+                value = getattr(field_obj, "value", "")
         else:
             value = ""
 
