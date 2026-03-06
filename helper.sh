@@ -21,11 +21,25 @@ else
     generator_flag="-g"
 fi
 
-# where to grab the definition file
-openapi_yaml_url="https://raw.githubusercontent.com/elabftw/elabftw/master/apidoc/v2/openapi.yaml"
 # folder with the generated python code
 lib="generated"
 html="html"
+
+# we fetch the openapi.yaml file from release
+gh_api_release_url="https://api.github.com/repos/elabftw/elabftw/releases/latest"
+
+browser_url="$(
+  curl -fsSL \
+    -H "Accept: application/vnd.github+json" \
+    -H "User-Agent: elabftw-script" \
+    "$gh_api_release_url" \
+  | jq -r '.assets[] | select(.name == "openapi.yaml") | .browser_download_url'
+)"
+
+if [ -z "$browser_url" ] || [ "$browser_url" = "null" ]; then
+  echo "openapi.yaml not found in latest release assets" >&2
+  exit 1
+fi
 
 function cleanup {
     rm -rfv "$lib"
@@ -35,17 +49,17 @@ function cleanup {
 # generate the lib from remote spec
 function generate {
     cleanup
-    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$browser_url" "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
 function generate-html {
     cleanup
-    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" "$generator_flag" html2 -o /local/"$html" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --user "$(id -u)":"$(id -u)" --rm -v "${PWD}":/local "$docker_image" generate -i "$browser_url" "$generator_flag" html2 -o /local/"$html" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
 }
 
 # don't use user/group ids in GH actions
 function generate-ci {
-    docker run --rm -v "${PWD}":/local "$docker_image" generate -i "$openapi_yaml_url" "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
+    docker run --rm -v "${PWD}":/local "$docker_image" generate -i "$browser_url" "$generator_flag" python -o /local/"$lib" -c /local/config.json --git-user-id elabftw --git-repo-id elabapi-python
     # fix permissions
     sudo chown -R "$(id -u)":"$(id -gn)" "$lib"
 }
