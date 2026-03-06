@@ -32,7 +32,7 @@ browser_url="$(
   curl -fsSL \
     -H "Accept: application/vnd.github+json" \
     -H "User-Agent: elabftw-script" \
-    "$url" \
+    "$gh_api_release_url" \
   | jq -r '.assets[] | select(.name == "openapi.yaml") | .browser_download_url'
 )"
 
