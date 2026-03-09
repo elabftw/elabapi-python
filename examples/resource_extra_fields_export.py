@@ -151,10 +151,12 @@ for item in items:
     else:
         extra_fields = {}
 
-    # Extract all fields defined in FIELD_ORDER
+    normalized_fields = {k.strip().lower(): v for k, v in extra_fields.items()}
+
     for field in FIELD_ORDER:
-        if field in extra_fields:
-            value = extra_fields[field].get("value", "")
+        key = field.strip().lower()
+        if key in normalized_fields:
+            value = normalized_fields[key].get("value", "")
         else:
             value = ""
 
