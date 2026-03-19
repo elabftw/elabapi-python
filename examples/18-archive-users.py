@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
+
 # the python library for elabftw
 import elabapi_python
 from client import api_client
+from dateutil.relativedelta import relativedelta
 
 #####################
 #    DESCRIPTION    #
@@ -16,6 +17,9 @@ from client import api_client
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 # we want to archive users not logged in after 8 months
 INACTIVE_PERIOD_MONTHS = 8
+# The team ID of the user we want to archive
+USER_TEAM_ID = 1
+
 
 def should_be_archived(date_string):
     date_format = "%Y-%m-%d %H:%M:%S"
@@ -23,6 +27,7 @@ def should_be_archived(date_string):
     current_date = datetime.now()
     threshold_date = current_date - relativedelta(months=INACTIVE_PERIOD_MONTHS)
     return input_date < threshold_date
+
 
 # Load the users api
 usersApi = elabapi_python.UsersApi(api_client)
@@ -37,7 +42,16 @@ for user in users:
     # also prevent archival of sysadmin accounts (server will throw error anyway)
     if user.last_login is not None and user.is_sysadmin != 1:
         if should_be_archived(user.last_login):
-            print(f'Archiving user {user.email}. Last login: {user.last_login}')
-            usersApi.patch_user(user.userid, body={'action': 'archive'})
+            print(f"Archiving user {user.email}. Last login: {user.last_login}")
+            usersApi.patch_user(
+                user.userid,
+                body={
+                    'action': 'patchuser2team',
+                    'team': USER_TEAM_ID,
+                    'target': 'is_archived',
+                    'content': 1,
+                },
+            )
+            # The user can un-archive by flipping the "content" value to 0
 
 # TODO: fix last_login info is not provided anymore when user is not admin!
