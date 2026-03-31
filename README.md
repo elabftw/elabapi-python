@@ -127,7 +127,7 @@ Ensure the `openapi.yaml` file is located in the current working directory, then
 1. Bump version in config.json
 2. Commit and push
 3. Tag and push --tags
-4. Create release on GitHub
+4. Create release on GitHub: https://github.com/elabftw/elabapi-python/releases/new
 
 # License
 
