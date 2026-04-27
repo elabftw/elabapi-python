@@ -184,7 +184,7 @@ for item in items:
 
         # Convert list-type fields into comma-separated string
         if isinstance(value, list):
-            value = ", ".join(value)
+            value = ", ".join(str(v) for v in value)
 
         row[field] = value
 
@@ -237,8 +237,8 @@ for col in ws.columns:
         try:
             if cell.value:
                 max_length = max(max_length, len(str(cell.value)))
-        except:
-            pass
+        except (TypeError, AttributeError):
+            continue
 
     adjusted_width = max_length + 2
     ws.column_dimensions[column_letter].width = adjusted_width
