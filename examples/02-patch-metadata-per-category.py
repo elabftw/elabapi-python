@@ -51,7 +51,8 @@ for item in itemsApi.read_items(cat=RESOURCE_CATEGORY_ID, limit=9999):
     if not item.metadata:
         print(f"Patching item {item.id}")
         try:
-            itemsApi.patch_item(item.id, body={"metadata": json.dumps(metadata)})
+            # WARNING: this function has (body, id) in signature, instead of (id, body) like the rest, so name the argument id
+            itemsApi.patch_item(id=item.id, body={"metadata": json.dumps(metadata)})
         except JSONDecodeError as e:
             raise ValueError(
                 "'metadata' passed to API request body contains invalid JSON."

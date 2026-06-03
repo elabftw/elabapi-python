@@ -44,7 +44,8 @@ with open(csv_path, newline='') as csvfile:
         # replace the value of the Sample type in metadata with the sample_type of the row
         metadata_as_json['extra_fields']['Sample type']['value'] = row['sample_type']
         # and now we modify the item with the correct title/metadata
-        itemsApi.patch_item(itemId, body={'title': row['sample_name'], 'body': '', 'metadata': json.dumps(metadata_as_json)})
+        # WARNING: this function has (body, id) in signature, instead of (id, body) like the rest, so name the argument id
+        itemsApi.patch_item(id=itemId, body={'title': row['sample_name'], 'body': '', 'metadata': json.dumps(metadata_as_json)})
 
         # now we want to link our entry to the project
         # one option would be to GET all items of a particular category and look for the title of our project to get its ID

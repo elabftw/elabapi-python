@@ -38,4 +38,5 @@ for item in items:
         proc_price_tax = float(proc_price_notax) * 1.2
         # no patch the item with these values
         print(f"INFO: Patching item with id {item.get('id')}")
-        items_client.patch_item(item.get('id'), body={"proc_pack_qty": proc_pack_qty, "proc_price_notax": proc_price_notax, "proc_price_tax": proc_price_tax, "proc_currency": CURRENCY_EUROS})
+        # WARNING: this function has (body, id) in signature, instead of (id, body) like the rest, so name the argument id
+        items_client.patch_item(id=item.get('id'), body={"proc_pack_qty": proc_pack_qty, "proc_price_notax": proc_price_notax, "proc_price_tax": proc_price_tax, "proc_currency": CURRENCY_EUROS})

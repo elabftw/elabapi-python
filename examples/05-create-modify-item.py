@@ -12,4 +12,5 @@ locationHeaderInResponse = response[2].get('Location')
 print(f'The newly created item is here: {locationHeaderInResponse}')
 itemId = int(locationHeaderInResponse.split('/').pop())
 # now change the title, and body and rating
-itemsApi.patch_item(itemId, body={'title': 'The new title', 'body': 'Main content text', 'rating': 5})
+# WARNING: this function has (body, id) in signature, instead of (id, body) like the rest, so name the argument id
+itemsApi.patch_item(id=itemId, body={'title': 'The new title', 'body': 'Main content text', 'rating': 5})

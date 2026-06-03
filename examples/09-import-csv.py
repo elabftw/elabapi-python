@@ -91,4 +91,5 @@ with open(CSV_PATH, newline='') as csvfile:
         # for the "ID" column we match it to the "custom_id" property in elab
         # and the extra fields (metadata) is built with a function
         # the single line below will make all those changes at once
-        itemsApi.patch_item(itemId, body={'title': row['Name'], 'body': getBodyFromRow(row), 'custom_id': row['ID'], 'metadata': getMetadataFromRow(row)})
+        # WARNING: this function has (body, id) in signature, instead of (id, body) like the rest, so name the argument id
+        itemsApi.patch_item(id=itemId, body={'title': row['Name'], 'body': getBodyFromRow(row), 'custom_id': row['ID'], 'metadata': getMetadataFromRow(row)})
